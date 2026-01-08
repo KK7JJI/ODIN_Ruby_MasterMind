@@ -7,7 +7,7 @@ module Mastermind
     attr_accessor :solutions, :feedback_set
 
     def self.call(game:)
-      new(game).call(game)
+      new(game).call
     end
 
     def initialize(game)
@@ -15,7 +15,7 @@ module Mastermind
       @feedback_set = []
     end
 
-    def call(game)
+    def call
       self
     end
 
@@ -65,28 +65,43 @@ module Mastermind
     end
 
     def feedback(solution:, guess:)
-      black_tokens = 0
-      white_tokens = 0
-      sol_unmatched = []
-      guess_unmatched = []
+      unmatched = {
+        sol_unmatched: [],
+        guess_unmatched: []
+      }
+      # sol_unmatched = []
+      # guess_unmatched = []
 
+      # feedback may be given for each
+      # token in the solution set once
+      # and only once.
+      black_tokens = check_exact_matches(solution, guess, unmatched)
+      white_tokens = check_partial_matches(unmatched)
+      (['B'] * black_tokens) + (['W'] * white_tokens)
+    end
+
+    def check_exact_matches(solution, guess, unmatched)
+      black_tokens = 0
       solution.zip(guess) do |sol, guess|
         if sol == guess
           black_tokens += 1
         else
-          sol_unmatched << sol
-          guess_unmatched << guess
+          unmatched[:sol_unmatched] << sol
+          unmatched[:guess_unmatched] << guess
         end
       end
+      black_tokens
+    end
 
-      guess_unmatched.each do |guess|
-        if (idx = sol_unmatched.index(guess))
+    def check_partial_matches(unmatched)
+      white_tokens = 0
+      unmatched[:guess_unmatched].each do |guess|
+        if (idx = unmatched[:sol_unmatched].index(guess))
           white_tokens += 1
-          sol_unmatched.delete_at(idx)
+          unmatched[:sol_unmatched].delete_at(idx)
         end
       end
-
-      (['B'] * black_tokens) + (['W'] * white_tokens)
+      white_tokens
     end
   end
 end
