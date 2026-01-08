@@ -154,7 +154,7 @@ compared against the entire space of possible solutions.  Solutions which would 
 in the same feedback as the current feedback are rejected prior to making another guess.
 
 The default game include 4 positions each occupied by 1 of 6 possibile characters which
-combined give 4<sup>6 = 1296 unique combinations.  With a small number like this the
+combined give 4<sup>6</sup> = 1296 unique combinations.  With a small number like this the
 computer player rapidly computes solutions.  Selecting larger numbers, however, requires
 searching exponentially larger sets of solutions which in turn will require significant time to
 solve.
