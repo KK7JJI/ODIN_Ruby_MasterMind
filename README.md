@@ -61,6 +61,8 @@ The game runs through a brief setup process to collect player names and determin
 
 The optionally the computer can be selected by omitting the player name.  The computer can be made to play itself by omitting names for both player 1 and player 2.  Player 1 will initially act as code maker, Player 2 the code breaker.  Roles are switched between matches.
 
+Player setup Paul (human), Player 2 (computer)
+
 ```
 ---------------------------------------------------------
 Enter player 1 name: (press enter for computer play)
