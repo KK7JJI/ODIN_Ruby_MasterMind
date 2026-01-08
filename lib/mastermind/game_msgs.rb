@@ -3,6 +3,37 @@
 module Mastermind
   # display messages to the console during play
   module GameMsgs
+    GAME_SET_HEADER = <<~GSHEADER
+      =========================================================================
+      =========================================================================
+      Start new set - player roles will reverse.
+      Playing set %<cur_set>d of %<total_sets>d
+      =========================================================================
+    GSHEADER
+
+    GAME_SET_FOOTER = <<~GSFOOTER
+      =========================================================================
+      GAME OVER:
+
+        Player scores:
+          %<codemakername>s score: %<codemakerscore>s
+          %<codebreakername>s score: %<codebreakerscore>s
+
+    GSFOOTER
+
+    GAME_SETS = <<~GAMESETS
+      ====================  PLAYING MASTERMIND !!!=============================
+      Game parameters are set as follows:
+        Positions: %<positions>s
+           Tokens: %<tokens>s
+          Guesses: %<guesses>s
+
+      How many sets shall we play?
+
+      1 set = 2 matches, players reverse roles between matches.
+
+    GAMESETS
+
     MASTERMIND_HELP = <<~MHELP
       =========================================================================
       Mastermind takes 3 options parameters from the command line to modify
@@ -33,15 +64,7 @@ module Mastermind
       ---------------------------------------------------------
     GETPNAME
 
-    SWITCH_ROLES = <<~SROLES
-      =========================================================================
-      Switching player roles.
-      =========================================================================
-
-    SROLES
-
     PLAYER_ROLES = <<~PROLES
-      =========================================================================
       Player roles are assigned as follows:
 
         CODEMAKER: %<codemakername>s (score: %<codemakerscore>s)
@@ -101,13 +124,26 @@ module Mastermind
       The code was: %<solution>s
 
     MATCHLOSS
+    def print_game_set_header(game)
+      print format(GAME_SET_HEADER, cur_set: game.cur_set,
+                                    total_sets: game.game_sets)
+    end
+
+    def print_game_set_footer(game)
+      puts format(GAME_SET_FOOTER, codemakername: game.players[:codemaker].player_name,
+                                   codebreakername: game.players[:codebreaker].player_name,
+                                   codemakerscore: game.players[:codemaker].player_score,
+                                   codebreakerscore: game.players[:codebreaker].player_score)
+    end
+
+    def print_game_set_message(game)
+      print format(GAME_SETS, positions: game.sol_pos_count,
+                              tokens: game.token_choice_count,
+                              guesses: game.sol_guess_count)
+    end
 
     def print_get_player_name(i)
       print format(GET_PLAYER_NAME, num: i)
-    end
-
-    def print_switching_roles
-      puts SWITCH_ROLES
     end
 
     def print_code_help_msg(game)

@@ -11,14 +11,22 @@ module Mastermind
       return print_game_help if print_game_help?(args)
 
       parms = game_args(args)
-
       mastermind = Mastermind::Game.call(
-        sol_pos_count: parms[:positions],
-        sol_guess_count: parms[:guesses],
+        sol_pos_count: parms[:positions], sol_guess_count: parms[:guesses],
         token_choice_count: parms[:choices]
       )
+      sets_to_be_played(game: mastermind)
       save_players(game: mastermind)
-      play_set(game: mastermind)
+      play_sets(game: mastermind)
+    end
+
+    def sets_to_be_played(game:)
+      print_game_set_message(game)
+      until game.game_sets.positive?
+        puts 'Choose a number > 0.'
+        print 'SETS: '
+        game.game_sets = $stdin.gets.chomp.to_i
+      end
     end
 
     def save_players(game:)
@@ -47,13 +55,16 @@ module Mastermind
       puts ''
     end
 
-    def play_set(game:)
-      2.times do
-        play_match(game)
-        print_switching_roles
-        game.reverse_player_roles
-        game.reset_game
+    def play_sets(game:)
+      (1..game.game_sets).each do
+        game.cur_set += 1
+        print_game_set_header(game)
+        2.times do
+          reset_match(game)
+          play_match(game)
+        end
       end
+      print_game_set_footer(game)
     end
 
     def play_match(game)
@@ -67,11 +78,17 @@ module Mastermind
         game.update_sol_feedback_set
         game.update_solution_space
       end
+      game.update_player_score
     end
 
     def print_match_header(game)
       print_player_roles(game)
       print_setcode_heading(game)
+    end
+
+    def reset_match(game)
+      game.reverse_player_roles
+      game.reset_game
     end
   end
 end

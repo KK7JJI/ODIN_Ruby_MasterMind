@@ -7,7 +7,8 @@ module Mastermind
 
     attr_accessor :solution, :sol_pos_count, :token_choice_count,
                   :valid_tokens, :codebreaker_guess, :codebreaker_guess_count,
-                  :players, :sol_guess_count, :codebreaker_guess_feedback
+                  :players, :sol_guess_count, :codebreaker_guess_feedback,
+                  :game_sets, :cur_set
 
     def self.call(
       sol_pos_count: 4,
@@ -27,7 +28,8 @@ module Mastermind
       token_choice_count
     )
       @players = {}
-
+      @game_sets = 0
+      @cur_set = 0
       @codebreaker_guess = []
       @codebreaker_guess_feedback = ['A']
       @codebreaker_guess_count = 1
@@ -56,10 +58,10 @@ module Mastermind
     end
 
     def save_player_info(player)
-      if players[:codemaker].nil?
-        save_player(player_obj: player, player_role: :codemaker)
-      elsif players[:codebreaker].nil?
+      if players[:codebreaker].nil?
         save_player(player_obj: player, player_role: :codebreaker)
+      elsif players[:codemaker].nil?
+        save_player(player_obj: player, player_role: :codemaker)
       else
         'Invalid: this is a two player game.'
       end
@@ -134,6 +136,10 @@ module Mastermind
       return true if codebreaker_loses?
 
       false
+    end
+
+    def update_player_score
+      players[:codebreaker].player_score += 1 unless codebreaker_loses?
     end
   end
 end
