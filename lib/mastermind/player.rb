@@ -25,13 +25,14 @@ module Mastermind
     def submit_until_valid(generator:, accepter:)
       value = ['z']
       until accepter.call(@game, value)
-        print_code_help_msg(@game) unless help_message?
+        print_code_help_msg(@game) unless computer_guess?
         value = generator.call(@game)
       end
+      puts "Computer Guess: #{value}" if computer_guess?
     end
 
-    def help_message?
-      return true unless instance_of?(Mastermind::ComputerPlayerMinMax)
+    def computer_guess?
+      return true if instance_of?(Mastermind::ComputerPlayerMinMax)
 
       false
     end
