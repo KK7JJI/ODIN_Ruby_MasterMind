@@ -51,12 +51,12 @@ module Mastermind
       2.times do
         play_match(game)
         print_switching_roles
-        mastermind.reverse_player_roles
-        mastermind.reset_game
+        game.reverse_player_roles
+        game.reset_game
       end
     end
 
-    def play_match(game:)
+    def play_match(game)
       print_match_header(game)
       game.players[:codemaker].submit_solution
 
