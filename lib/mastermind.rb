@@ -2,6 +2,8 @@
 # of the program here.
 
 require 'pry-byebug'
+require_relative 'mastermind/game_msgs'
+require_relative 'mastermind/init'
 require_relative 'mastermind/app'
 require_relative 'mastermind/solution_space'
 require_relative 'mastermind/player'

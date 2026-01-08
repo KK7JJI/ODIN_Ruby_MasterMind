@@ -4,6 +4,8 @@ module Mastermind
   # represent individual game players. In Mastermind
   # we'll have a codemaker and a codebreaker.
   class Player
+    include GameMsgs
+
     attr_accessor :player_role, :player_name, :player_score, :game
 
     def self.call(player_name:)
@@ -23,7 +25,7 @@ module Mastermind
     def submit_until_valid(generator:, accepter:)
       value = ['z']
       until accepter.call(@game, value)
-        puts 'Help Message'
+        print_code_help_msg(@game)
         value = generator.call(@game)
       end
     end

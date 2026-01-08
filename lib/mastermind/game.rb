@@ -3,6 +3,8 @@
 module Mastermind
   # Represents a single game of mastermind.
   class Game
+    include Mastermind::GameMsgs
+
     attr_accessor :solution, :sol_pos_count, :token_choice_count,
                   :valid_tokens, :codebreaker_guess, :codebreaker_guess_count,
                   :players, :sol_guess_count, :codebreaker_guess_feedback
@@ -28,7 +30,7 @@ module Mastermind
 
       @codebreaker_guess = []
       @codebreaker_guess_feedback = ['A']
-      @codebreaker_guess_count = 0
+      @codebreaker_guess_count = 1
 
       @token_choice_count = token_choice_count
       @valid_tokens = ('A'...('A'.ord + @token_choice_count).chr).to_a
@@ -48,7 +50,7 @@ module Mastermind
     def reset_game
       @solution = []
       @codebreaker_guess = []
-      @codebreaker_guess_count = 0
+      @codebreaker_guess_count = 1
       @codebreaker_guess_feedback = ['A']
       @solution_space.reset_game(game: self)
     end
@@ -73,25 +75,6 @@ module Mastermind
       temp = players[:codemaker]
       players[:codemaker] = players[:codebreaker]
       players[:codebreaker] = temp
-    end
-
-    def print_player_roles
-      puts ''
-      puts 'Player roles are assigned as follows:'
-      puts '-------------------------------------'
-
-      players.keys.sort.each do |key|
-        puts "#{key} is #{players[key].player_name}"
-      end
-      puts ''
-    end
-
-    def print_player_scores
-      player_score_msgs = []
-      players.values.map do |player|
-        player_score_msgs << "#{player.player_name} score: #{player.player_score}"
-      end
-      puts player_score_msgs.sort
     end
 
     def accept_codemaker_solution(sol)
@@ -133,45 +116,22 @@ module Mastermind
       @solution_space.update_solution_set(feedback: codebreaker_guess_feedback)
     end
 
-    def display_setcode_heading
-      puts ''
-      puts '------------------------'
-      puts 'Select a code'
-      puts "#{players[:codemaker].player_name}:"
-      puts '------------------------'
-      puts ''
+    def codebreaker_wins?
+      return true if @codebreaker_guess_feedback.all?('B') &&
+                     (@codebreaker_guess_feedback.length == @sol_pos_count)
+
+      false
     end
 
-    def display_guess_heading
-      puts ''
-      puts '------------------------'
-      puts "Guess: #{codebreaker_guess_count} of #{sol_guess_count}"
-      puts "#{players[:codebreaker].player_name}:"
-      puts '------------------------'
-      puts ''
-    end
+    def codebreaker_loses?
+      return true if @codebreaker_guess_count > @sol_guess_count
 
-    def display_guess_feedback
-      puts ''
-      puts 'Feedback for your guess:'
-      puts '------------------------'
-      puts "Guess = #{@codebreaker_guess.join}"
-      puts "#{@codebreaker_guess_feedback.count('B')} tokens correct and in correct position."
-      puts "#{@codebreaker_guess_feedback.count('W')} correct tokens but in wrong position."
-      puts ''
-
-      if @codebreaker_guess_feedback.all?('B') &&
-         (@codebreaker_guess_feedback.length == @sol_pos_count)
-        puts 'Congratulations! You have guessed the correct code!'
-        puts "Code was: #{solution.join}"
-        puts ''
-      end
+      false
     end
 
     def game_over?
-      return true if @codebreaker_guess_feedback.all?('B') &&
-                     (@codebreaker_guess_feedback.length == @sol_pos_count)
-      return true if @codebreaker_guess_count > @sol_guess_count
+      return true if codebreaker_wins?
+      return true if codebreaker_loses?
 
       false
     end
