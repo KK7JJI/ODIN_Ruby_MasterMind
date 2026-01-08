@@ -1,5 +1,6 @@
 # Entry point.  run.sh starts execution
 # of the program here.
+require 'io/console'
 require_relative 'mastermind/game_msgs'
 require_relative 'mastermind/game_input'
 require_relative 'mastermind/game_players'

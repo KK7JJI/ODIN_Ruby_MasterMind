@@ -12,6 +12,7 @@ module Mastermind
 
     def initialize(game)
       @solutions = generate_solution_set(game)
+      @solutions_cache = @solutions.dup
       @feedback_set = []
     end
 
@@ -20,16 +21,16 @@ module Mastermind
     end
 
     def reset_game(game:)
-      @solutions = generate_solution_set(game)
+      @solutions = @solutions_cache.dup
       @feedback_set = []
     end
 
-    def generate_solution_set(game)
+    def generate_solution_set2(game)
+      # written to learn how to generate permutations like this recursively.
       permutations(game.valid_tokens, game.sol_pos_count)
     end
 
-    def generate_solution_set2(game)
-      # optionally you can use the built in permutations method.
+    def generate_solution_set(game)
       game.valid_tokens.repeated_permutation(game.sol_pos_count).to_a
     end
 
@@ -69,8 +70,6 @@ module Mastermind
         sol_unmatched: [],
         guess_unmatched: []
       }
-      # sol_unmatched = []
-      # guess_unmatched = []
 
       # feedback may be given for each
       # token in the solution set once

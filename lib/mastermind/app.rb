@@ -96,6 +96,7 @@ module Mastermind
     end
 
     def print_match_header(game)
+      print_match_banner
       print_player_roles(game)
       print_setcode_heading(game)
     end

@@ -6,9 +6,11 @@ module Mastermind
     GAME_SET_HEADER = <<~GSHEADER
       =========================================================================
       =========================================================================
-      Start new set - player roles will reverse.
+      Start new set - player roles will reverse between matches.
       Playing set %<cur_set>d of %<total_sets>d
       =========================================================================
+      =========================================================================
+
     GSHEADER
 
     GAME_SET_FOOTER = <<~GSFOOTER
@@ -33,6 +35,13 @@ module Mastermind
       1 set = 2 matches, players reverse roles between matches.
 
     GAMESETS
+
+    MATCH_BANNER = <<~MBANNER
+      =========================================================
+      New Match:
+      =========================================================
+
+    MBANNER
 
     MASTERMIND_HELP = <<~MHELP
       =========================================================================
@@ -69,7 +78,7 @@ module Mastermind
 
         CODEMAKER: %<codemakername>s (score: %<codemakerscore>s)
       CODEBREAKER: %<codebreakername>s (score: %<codebreakerscore>s)
-      =========================================================================
+      =========================================================
     PROLES
 
     PLAYER_SCORES = <<~PSCORES
@@ -96,10 +105,10 @@ module Mastermind
     CODEHELPMSG
 
     GUESS_HEADING = <<~GUESSHEADING
-      =========================================================================
-      Guess: %<cur_guess_count>d of %<guess_count>d
-      CODEBREAKER: (%<codebreakername>s)
-      =========================================================================
+      =========================================================
+        Guess: %<cur_guess_count>d of %<guess_count>d
+        CODEBREAKER: (%<codebreakername>s)
+      =========================================================
 
     GUESSHEADING
 
@@ -140,6 +149,10 @@ module Mastermind
       print format(GAME_SETS, positions: game.sol_pos_count,
                               tokens: game.token_choice_count,
                               guesses: game.sol_guess_count)
+    end
+
+    def print_match_banner
+      puts Mastermind::GameMsgs::MATCH_BANNER
     end
 
     def print_get_player_name(i)

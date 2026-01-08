@@ -22,13 +22,19 @@ module Mastermind
       self
     end
 
-    def submit_until_valid(generator:, accepter:)
+    def submit_until_valid(generator:, accepter:, solution: false)
       value = ['z']
       until accepter.call(@game, value)
         print_code_help_msg(@game) unless computer_guess?
         value = generator.call(@game)
       end
-      puts "Computer Guess: #{value}" if computer_guess?
+
+      print_computer_guess(value) if computer_guess? && !solution
+      puts "Possible Solutions: #{@game.possible_solution_count}"
+    end
+
+    def print_computer_guess(value)
+      puts "Computer Guess: #{value}"
     end
 
     def computer_guess?
@@ -40,7 +46,8 @@ module Mastermind
     def submit_codebreaker_guess
       submit_until_valid(
         generator: method(:generate_codebreaker_guess),
-        accepter: ->(mm, value) { mm.accept_codebreaker_guess(value) }
+        accepter: ->(mm, value) { mm.accept_codebreaker_guess(value) },
+        solution: false
       )
       @game.codebreaker_guess_count += 1
       @game.calculate_codebreaker_guess_feedback
@@ -49,7 +56,8 @@ module Mastermind
     def submit_solution
       submit_until_valid(
         generator: method(:generate_solution),
-        accepter: ->(mm, value) { mm.accept_codemaker_solution(value) }
+        accepter: ->(mm, value) { mm.accept_codemaker_solution(value) },
+        solution: true
       )
     end
   end

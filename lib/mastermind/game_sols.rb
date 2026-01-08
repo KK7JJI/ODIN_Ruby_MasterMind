@@ -21,5 +21,9 @@ module Mastermind
     def update_solution_space
       @minmax_data.update_solution_set(feedback: codebreaker_guess_feedback)
     end
+
+    def possible_solution_count
+      @minmax_data.solutions.length
+    end
   end
 end
