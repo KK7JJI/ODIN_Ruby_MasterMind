@@ -131,7 +131,8 @@ Guess = AABB
 ```
 NOTE: The secret code for this example was "BDBD".
 
-The game parameters may be modified using optional command line arguments:
+### Game Parameters
+Gameplay may be modified using optional command line parameters:
 
 ` ./run.sh [positions:n] [choices:n] [guesses:n]`
 ```
