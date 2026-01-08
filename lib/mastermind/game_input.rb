@@ -19,8 +19,8 @@ module Mastermind
     end
 
     def valid_code?(sol)
-      return false unless sol.length == @sol_pos_count
-      return false unless sol.all? { |chr| @valid_tokens.include?(chr) }
+      return false unless sol.length == sol_pos_count
+      return false unless sol.all? { |chr| valid_tokens.include?(chr) }
 
       true
     end

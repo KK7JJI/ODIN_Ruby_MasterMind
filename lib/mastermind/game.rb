@@ -8,10 +8,9 @@ module Mastermind
     include Mastermind::GamePlayers
     include Mastermind::GameSols
 
-    attr_accessor :solution, :sol_pos_count, :token_choice_count,
-                  :valid_tokens, :codebreaker_guess, :codebreaker_guess_count,
-                  :players, :sol_guess_count, :codebreaker_guess_feedback,
-                  :game_sets, :cur_set
+    attr_accessor :solution, :sol_pos_count, :token_choice_count, :valid_tokens,
+                  :codebreaker_guess, :codebreaker_guess_count, :players,
+                  :sol_guess_count, :game_sets, :cur_set, :codebreaker_guess_feedback
 
     def self.call(
       sol_pos_count: 4,

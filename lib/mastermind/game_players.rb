@@ -27,14 +27,14 @@ module Mastermind
     end
 
     def codebreaker_wins?
-      return true if @codebreaker_guess_feedback.all?('B') &&
-                     (@codebreaker_guess_feedback.length == @sol_pos_count)
+      return true if codebreaker_guess_feedback.all?('B') &&
+                     (codebreaker_guess_feedback.length == sol_pos_count)
 
       false
     end
 
     def codebreaker_loses?
-      return true if @codebreaker_guess_count > @sol_guess_count
+      return true if codebreaker_guess_count > sol_guess_count
 
       false
     end

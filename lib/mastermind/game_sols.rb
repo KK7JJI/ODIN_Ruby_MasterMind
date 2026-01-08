@@ -15,7 +15,7 @@ module Mastermind
     end
 
     def update_sol_feedback_set
-      @minmax_data.generate_feedback_set(guess: @codebreaker_guess)
+      @minmax_data.generate_feedback_set(guess: codebreaker_guess)
     end
 
     def update_solution_space
