@@ -15,6 +15,7 @@ module Mastermind
         sol_pos_count: parms[:positions], sol_guess_count: parms[:guesses],
         token_choice_count: parms[:choices]
       )
+
       sets_to_be_played(game: mastermind)
       save_players(game: mastermind)
       play_sets(game: mastermind)
@@ -56,9 +57,10 @@ module Mastermind
     end
 
     def play_sets(game:)
-      (1..game.game_sets).each do
+      game.game_sets.times do
         game.cur_set += 1
         print_game_set_header(game)
+
         2.times do
           reset_match(game)
           play_match(game)
@@ -69,16 +71,28 @@ module Mastermind
 
     def play_match(game)
       print_match_header(game)
-      game.players[:codemaker].submit_solution
+      pick_secret_code(game)
 
       until game.game_over?
         print_guess_heading(game)
-        game.players[:codebreaker].submit_codebreaker_guess
+        guess_secret_code(game)
         print_guess_feedback(game)
-        game.update_sol_feedback_set
-        game.update_solution_space
+        update_minmax_game_data(game)
       end
       game.update_player_score
+    end
+
+    def pick_secret_code(game)
+      game.players[:codemaker].submit_solution
+    end
+
+    def guess_secret_code(game)
+      game.players[:codebreaker].submit_codebreaker_guess
+    end
+
+    def update_minmax_game_data(game)
+      game.update_sol_feedback_set
+      game.update_solution_space
     end
 
     def print_match_header(game)

@@ -5,8 +5,8 @@ module Mastermind
   class Game
     include Mastermind::GameMsgs
     include Mastermind::GameInput
-    include Mastermind::GameSols
     include Mastermind::GamePlayers
+    include Mastermind::GameSols
 
     attr_accessor :solution, :sol_pos_count, :token_choice_count,
                   :valid_tokens, :codebreaker_guess, :codebreaker_guess_count,
@@ -42,11 +42,11 @@ module Mastermind
       @sol_pos_count = sol_pos_count
       @sol_guess_count = sol_guess_count
 
-      @solution_space = nil
+      @minmax_data = nil
     end
 
     def call
-      @solution_space = SolutionSpace.call(game: self)
+      @minmax_data = Minmax.call(game: self)
       self
     end
 
@@ -55,7 +55,7 @@ module Mastermind
       @codebreaker_guess = []
       @codebreaker_guess_count = 1
       @codebreaker_guess_feedback = ['A']
-      @solution_space.reset_game(game: self)
+      @minmax_data.reset_game(game: self)
     end
 
     def game_over?

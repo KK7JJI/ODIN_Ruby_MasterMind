@@ -3,7 +3,7 @@
 module Mastermind
   # store all possible game solutions for comparison
   # during gameplay.
-  class SolutionSpace
+  class Minmax
     attr_accessor :solutions, :feedback_set
 
     def self.call(game:)
@@ -16,7 +16,6 @@ module Mastermind
     end
 
     def call(game)
-      generate_solution_set(game)
       self
     end
 
