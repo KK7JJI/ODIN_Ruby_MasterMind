@@ -69,11 +69,11 @@ module Mastermind
   # minmax algorithm.  Codes are set at random
   class ComputerPlayerMinMax < Player
     def generate_solution
-      Array.new(@game.sol_pos_count) { @game.valid_tokens.sample }
+      Array.new(game.sol_pos_count) { game.valid_tokens.sample }
     end
 
     def generate_codebreaker_guess
-      @game.sample_solution_space
+      game.sample_solution_space
     end
   end
 
