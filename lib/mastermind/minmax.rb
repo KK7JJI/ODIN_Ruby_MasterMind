@@ -20,17 +20,18 @@ module Mastermind
       self
     end
 
-    def reset_game(game:)
+    def reset_game
       @solutions = @solutions_cache.dup
       @feedback_set = []
     end
 
-    def generate_solution_set2(game)
+    def generate_solution_set(game)
       # written to learn how to generate permutations like this recursively.
       permutations(game.valid_tokens, game.sol_pos_count)
     end
 
-    def generate_solution_set(game)
+    def generate_solution_set2(game)
+      # written using ruby permutations method.
       game.valid_tokens.repeated_permutation(game.sol_pos_count).to_a
     end
 
@@ -49,22 +50,6 @@ module Mastermind
       @feedback_set = []
     end
 
-    def permutations(valid_tokens, pos_count)
-      # ruby has a built in that does this.  I wrote one myself for the
-      # sake of learning how to do it.
-      return valid_tokens.map { |token| Array.new(1) { token } } if pos_count == 1
-
-      perms = permutations(valid_tokens, pos_count - 1)
-      tokens = valid_tokens.map { |token| Array.new(1) { token } }
-      result = []
-      tokens.each do |t|
-        perms.each do |perm|
-          result << (t + perm)
-        end
-      end
-      result
-    end
-
     def feedback(solution:, guess:)
       unmatched = {
         sol_unmatched: [],
@@ -78,6 +63,8 @@ module Mastermind
       white_tokens = check_partial_matches(unmatched)
       (['B'] * black_tokens) + (['W'] * white_tokens)
     end
+
+    private
 
     def check_exact_matches(solution, guess, unmatched)
       black_tokens = 0
@@ -101,6 +88,22 @@ module Mastermind
         end
       end
       white_tokens
+    end
+
+    def permutations(valid_tokens, pos_count)
+      # ruby has a built in that does this.  I wrote one myself for the
+      # sake of learning how to do it.
+      return valid_tokens.map { |token| Array.new(1) { token } } if pos_count == 1
+
+      perms = permutations(valid_tokens, pos_count - 1)
+      tokens = valid_tokens.map { |token| Array.new(1) { token } }
+      result = []
+      tokens.each do |t|
+        perms.each do |perm|
+          result << (t + perm)
+        end
+      end
+      result
     end
   end
 end

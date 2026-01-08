@@ -55,7 +55,7 @@ module Mastermind
       @codebreaker_guess = []
       @codebreaker_guess_count = 1
       @codebreaker_guess_feedback = ['A']
-      @minmax_data.reset_game(game: self)
+      @minmax_data.reset_game
     end
 
     def game_over?
