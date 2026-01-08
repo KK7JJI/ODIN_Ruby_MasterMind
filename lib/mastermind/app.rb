@@ -21,6 +21,8 @@ module Mastermind
       play_sets(game: mastermind)
     end
 
+    private
+
     def sets_to_be_played(game:)
       print_game_set_message(game)
       until game.game_sets.positive?

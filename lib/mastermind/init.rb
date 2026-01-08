@@ -2,6 +2,7 @@
 
 module Mastermind
   # used to initiate a new game of mastermind
+  # methods used in app.rb
   module Init
     VALID_NAMES = %i[positions choices guesses].freeze
     DEFAULT_PARMS = {
@@ -9,6 +10,8 @@ module Mastermind
       choices: 6,
       guesses: 12
     }.freeze
+
+    private
 
     def valid_args?(args)
       return true if args[0] == '--help'
