@@ -6,24 +6,24 @@ module Mastermind
   # for player submitted guesses.
   module GameSols
     def sample_solution_space
-      @minmax_data.solutions.sample
+      minmax_data.solutions.sample
     end
 
     def calculate_codebreaker_guess_feedback
-      @codebreaker_guess_feedback =
-        @minmax_data.feedback(solution: solution, guess: codebreaker_guess)
+      self.codebreaker_guess_feedback =
+        minmax_data.feedback(solution: solution, guess: codebreaker_guess)
     end
 
     def update_sol_feedback_set
-      @minmax_data.generate_feedback_set(guess: codebreaker_guess)
+      minmax_data.generate_feedback_set(guess: codebreaker_guess)
     end
 
     def update_solution_space
-      @minmax_data.update_solution_set(feedback: codebreaker_guess_feedback)
+      minmax_data.update_solution_set(feedback: codebreaker_guess_feedback)
     end
 
     def possible_solution_count
-      @minmax_data.solutions.length
+      minmax_data.solutions.length
     end
   end
 end

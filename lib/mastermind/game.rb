@@ -8,20 +8,14 @@ module Mastermind
     include Mastermind::GamePlayers
     include Mastermind::GameSols
 
-    attr_accessor :solution, :sol_pos_count, :token_choice_count, :valid_tokens,
-                  :codebreaker_guess, :codebreaker_guess_count, :players,
-                  :sol_guess_count, :game_sets, :cur_set, :codebreaker_guess_feedback
+    attr_accessor :solution, :codebreaker_guess, :codebreaker_guess_count,
+                  :players, :game_sets, :cur_set, :codebreaker_guess_feedback
 
-    def self.call(
-      sol_pos_count: 4,
-      sol_guess_count: 12,
-      token_choice_count: 6
-    )
-      new(
-        sol_pos_count,
-        sol_guess_count,
-        token_choice_count
-      ).call
+    attr_reader :sol_guess_count, :valid_tokens, :token_choice_count,
+                :sol_pos_count, :minmax_data
+
+    def self.call(sol_pos_count:, sol_guess_count:, token_choice_count:)
+      new(sol_pos_count, sol_guess_count, token_choice_count).call
     end
 
     def initialize(sol_pos_count, sol_guess_count, token_choice_count)
@@ -41,20 +35,19 @@ module Mastermind
       @sol_pos_count = sol_pos_count
       @sol_guess_count = sol_guess_count
 
-      @minmax_data = nil
+      @minmax_data = Minmax.call(game: self)
     end
 
     def call
-      @minmax_data = Minmax.call(game: self)
       self
     end
 
     def reset_game
-      @solution = []
-      @codebreaker_guess = []
-      @codebreaker_guess_count = 1
-      @codebreaker_guess_feedback = ['A']
-      @minmax_data.reset_game
+      self.solution = []
+      self.codebreaker_guess = []
+      self.codebreaker_guess_count = 1
+      self.codebreaker_guess_feedback = ['A']
+      minmax_data.reset_game
     end
 
     def game_over?

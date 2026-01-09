@@ -21,8 +21,8 @@ module Mastermind
     end
 
     def reset_game
-      @solutions = @solutions_cache.dup
-      @feedback_set = []
+      self.solutions = @solutions_cache.dup
+      self.feedback_set = []
     end
 
     def generate_solution_set(game)
@@ -36,18 +36,18 @@ module Mastermind
     end
 
     def generate_feedback_set(guess:)
-      @feedback_set = solutions.map do |solution|
+      self.feedback_set = solutions.map do |solution|
         feedback(solution: solution, guess: guess)
       end
     end
 
     def update_solution_set(feedback:)
-      indicies = (@feedback_set.map.with_index do |fb, idx|
+      indicies = (feedback_set.map.with_index do |fb, idx|
         idx if fb == feedback
       end).compact
 
       @solutions = indicies.map { |i| solutions[i] }
-      @feedback_set = []
+      self.feedback_set = []
     end
 
     def feedback(solution:, guess:)
