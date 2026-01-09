@@ -160,4 +160,5 @@ searching exponentially larger sets of solutions which in turn will require sign
 solve.
 
 [Mastermind on Wikipedia](https://en.wikipedia.org/wiki/Mastermind_(board_game)#Genetic_algorithm)\
-[D.Knuth, "The Computer as Mastermind", J Rec Math Vol 9(1) 1976-77](https://www.cs.uni.edu/~wallingf/teaching/cs3530/resources/knuth-mastermind.pdf)
+[D.Knuth, "The Computer as Mastermind", J Rec Math Vol 9(1) 1976-77](https://www.cs.uni.edu/~wallingf/teaching/cs3530/resources/knuth-mastermind.pdf)\
+[Clever ways to solve Mastermind?](https://puzzling.stackexchange.com/questions/546/clever-ways-to-solve-mastermind)
