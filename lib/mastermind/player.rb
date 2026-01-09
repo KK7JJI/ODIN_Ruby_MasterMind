@@ -51,6 +51,10 @@ module Mastermind
       end
 
       print_computer_guess(value) if computer_guess? && !solution
+      print_sol_count if computer_guess?
+    end
+
+    def print_sol_count
       puts "Possible Solutions: #{game.possible_solution_count}"
     end
 
